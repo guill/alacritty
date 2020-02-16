@@ -321,6 +321,9 @@ impl RenderableCell {
                     (true, cell::Flags::BOLD) => colors[ansi.to_bright()],
                     // Cell is marked as dim and not bold
                     (_, cell::Flags::DIM) | (false, cell::Flags::DIM_BOLD) => colors[ansi.to_dim()],
+                    // In case powershell has already converted the color to bright, we'll convert
+                    // it back
+                    (false, cell::Flags::BOLD) => colors[ansi.to_dim()],
                     // None of the above, keep original color.
                     _ => colors[ansi],
                 }
